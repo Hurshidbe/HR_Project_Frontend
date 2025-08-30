@@ -389,14 +389,7 @@ const History: React.FC = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-             {/* Status Info */}
-               <Box sx={{ mb: 2, p: 2, bgcolor: 'rgba(0, 255, 255, 0.1)', border: '1px solid #00ffff', borderRadius: 1 }}>
-          <Typography variant="body2" sx={{ color: '#00ffff' }}>
-            📊 Status: {initialLoading ? 'Initial Loading...' : loading ? 'Refreshing...' : 'Ready'} | 
-            Salary History: {salaryHistory.length} | 
-            Position History: {positionHistory.length}
-          </Typography>
-        </Box>
+             
 
       <motion.div
         initial={{ opacity: 0, y: -20 }}

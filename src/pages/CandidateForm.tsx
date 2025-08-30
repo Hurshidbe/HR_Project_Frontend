@@ -381,18 +381,7 @@ const CandidateForm: React.FC = () => {
             </div>
           </div>
 
-          {/* Backend Connection Status */}
-          <div className={`px-6 py-3 text-sm font-medium ${
-            backendStatus === 'connected' 
-              ? 'bg-green-900/50 text-green-300 border-b border-green-500/30' 
-              : backendStatus === 'disconnected' 
-              ? 'bg-red-900/50 text-red-300 border-b border-red-500/30' 
-              : 'bg-yellow-900/50 text-yellow-300 border-b border-yellow-500/30'
-          }`}>
-            {backendStatus === 'checking' && '🔄 Checking backend connection...'}
-            {backendStatus === 'connected' && '✅ Backend connected - Form submission available'}
-            {backendStatus === 'disconnected' && '❌ Backend disconnected - Form submission will fail. Please start the backend server on port 5000.'}
-          </div>
+
 
           <form onSubmit={handleSubmit} className="p-6 space-y-8 bg-slate-800">
             {submitError && (
