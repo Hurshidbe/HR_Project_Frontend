@@ -19,7 +19,7 @@ class ApiService {
   private baseURL: string;
 
   constructor() {
-    this.baseURL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+    this.baseURL = process.env.REACT_APP_API_URL || "http://hr_bck:5000";
     //hr_backend:5000 https://api.hr-app.com
     http: console.log("API Service initialized with baseURL:", this.baseURL);
 
