@@ -1092,28 +1092,7 @@ const CandidateForm: React.FC = () => {
               </button>
             </div>
 
-            {/* Backend Help Message */}
-            {backendStatus === 'disconnected' && (
-              <div className="mt-6 p-4 bg-slate-600/50 border border-purple-500/30 rounded-lg">
-                <h3 className="text-sm font-medium text-purple-300 mb-2">💡 How to start the backend server:</h3>
-                <ol className="text-sm text-gray-300 space-y-1 list-decimal list-inside">
-                  <li>Open a new terminal/command prompt</li>
-                  <li>Navigate to the <code className="bg-slate-700 px-1 rounded border border-purple-500/30">HR_Project_backend</code> folder</li>
-                  <li>Run <code className="bg-slate-700 px-1 rounded border border-purple-500/30">npm install</code> (if not done already)</li>
-                  <li>Run <code className="bg-slate-700 px-1 rounded border border-purple-500/30">npm run start:dev</code> or <code className="bg-slate-700 px-1 rounded border border-purple-500/30">npm start</code></li>
-                  <li>Wait for the message "Server running on port 5000"</li>
-                  <li>Refresh this page to check connection status</li>
-                </ol>
-                
-                <div className="mt-4 p-3 bg-yellow-900/30 border border-yellow-500/30 rounded">
-                  <h4 className="text-sm font-medium text-yellow-300 mb-2">⚠️ Known Issue:</h4>
-                  <p className="text-sm text-yellow-200">
-                    If you get an "Authorization header is not defined" error, this means the backend is incorrectly requiring authentication for the candidate creation endpoint. 
-                    This is a backend configuration issue that needs to be fixed by the backend administrator.
-                  </p>
-                </div>
-              </div>
-            )}
+            
           </form>
         </motion.div>
       </div>
