@@ -20,7 +20,7 @@ class ApiService {
 
   constructor() {
     this.baseURL = process.env.REACT_APP_API_URL || "https://hr-bck.hurshidbe.uz";
-    http: console.log("API Service initialized with baseURL:", this.baseURL);
+    console.log("API Service initialized with baseURL:", this.baseURL);
 
     this.api = axios.create({
       baseURL: this.baseURL,
