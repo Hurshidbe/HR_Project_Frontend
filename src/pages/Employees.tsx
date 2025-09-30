@@ -39,8 +39,10 @@ import apiService from '../services/api';
 import { Employee, Department, Position, Region, Sex } from '../types';
 import EmployeeViewModal from '../components/EmployeeViewModal';
 import EditEmployeeModal from '../components/EditEmployeeModal';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Employees: React.FC = () => {
+  const { mode } = useTheme();
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -242,9 +244,9 @@ const Employees: React.FC = () => {
       >
         <Card
           sx={{
-            background: 'rgba(26, 26, 26, 0.8)',
+            background: mode === 'dark' ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.8)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 255, 255, 0.3)',
+            border: mode === 'dark' ? '1px solid rgba(0, 255, 255, 0.3)' : '1px solid rgba(25, 118, 210, 0.3)',
             borderRadius: 3,
             mb: 3,
           }}
@@ -261,24 +263,24 @@ const Employees: React.FC = () => {
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    color: '#ffffff',
-                    '& fieldset': { borderColor: 'rgba(0, 255, 255, 0.3)' },
-                    '&:hover fieldset': { borderColor: 'rgba(0, 255, 255, 0.5)' },
-                    '&.Mui-focused fieldset': { borderColor: '#00ffff' },
+                    color: mode === 'dark' ? '#ffffff' : '#000000',
+                    '& fieldset': { borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.3)' : 'rgba(25, 118, 210, 0.3)' },
+                    '&:hover fieldset': { borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.5)' : 'rgba(25, 118, 210, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: mode === 'dark' ? '#00ffff' : '#1976d2' },
                   },
-                  '& .MuiInputLabel-root': { color: '#b0b0b0' },
-                  '& .MuiInputBase-input': { color: '#ffffff' },
+                  '& .MuiInputLabel-root': { color: mode === 'dark' ? '#b0b0b0' : '#666666' },
+                  '& .MuiInputBase-input': { color: mode === 'dark' ? '#ffffff' : '#000000' },
                 }}
               />
               <FormControl fullWidth>
-                <InputLabel sx={{ color: '#b0b0b0' }}>Department</InputLabel>
+                <InputLabel sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>Department</InputLabel>
                 <Select
                   value={departmentFilter}
                   onChange={(e) => handleDepartmentFilterChange(e.target.value)}
                   sx={{
-                    color: '#ffffff',
-                    '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0, 255, 255, 0.3)' },
-                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0, 255, 255, 0.5)' },
+                    color: mode === 'dark' ? '#ffffff' : '#000000',
+                    '& .MuiOutlinedInput-notchedOutline': { borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.3)' : 'rgba(25, 118, 210, 0.3)' },
+                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.5)' : 'rgba(25, 118, 210, 0.5)' },
                   }}
                 >
                   <MenuItem value="">All Departments</MenuItem>
@@ -290,18 +292,18 @@ const Employees: React.FC = () => {
                 </Select>
               </FormControl>
               <FormControl fullWidth>
-                <InputLabel sx={{ color: '#b0b0b0' }}>Position</InputLabel>
+                <InputLabel sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>Position</InputLabel>
                 <Select
                   value={positionFilter}
                   onChange={(e) => setPositionFilter(e.target.value)}
                   disabled={!departmentFilter} // Disable if no department is selected
                   sx={{
-                    color: '#ffffff',
-                    '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0, 255, 255, 0.3)' },
-                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0, 255, 255, 0.5)' },
+                    color: mode === 'dark' ? '#ffffff' : '#000000',
+                    '& .MuiOutlinedInput-notchedOutline': { borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.3)' : 'rgba(25, 118, 210, 0.3)' },
+                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.5)' : 'rgba(25, 118, 210, 0.5)' },
                     '&.Mui-disabled': {
-                      color: '#666666',
-                      '& .MuiOutlinedInput-notchedOutline': { borderColor: '#444444' },
+                      color: mode === 'dark' ? '#666666' : '#999999',
+                      '& .MuiOutlinedInput-notchedOutline': { borderColor: mode === 'dark' ? '#444444' : '#cccccc' },
                     },
                   }}
                 >
@@ -314,14 +316,14 @@ const Employees: React.FC = () => {
                 </Select>
               </FormControl>
               <FormControl fullWidth>
-                <InputLabel sx={{ color: '#b0b0b0' }}>Region</InputLabel>
+                <InputLabel sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>Region</InputLabel>
                 <Select
                   value={regionFilter}
                   onChange={(e) => setRegionFilter(e.target.value)}
                   sx={{
-                    color: '#ffffff',
-                    '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0, 255, 255, 0.3)' },
-                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0, 255, 255, 0.5)' },
+                    color: mode === 'dark' ? '#ffffff' : '#000000',
+                    '& .MuiOutlinedInput-notchedOutline': { borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.3)' : 'rgba(25, 118, 210, 0.3)' },
+                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.5)' : 'rgba(25, 118, 210, 0.5)' },
                   }}
                 >
                   <MenuItem value="">All Regions</MenuItem>
@@ -379,9 +381,9 @@ const Employees: React.FC = () => {
       >
         <Card
           sx={{
-            background: 'rgba(26, 26, 26, 0.8)',
+            background: mode === 'dark' ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.8)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 255, 255, 0.3)',
+            border: mode === 'dark' ? '1px solid rgba(0, 255, 255, 0.3)' : '1px solid rgba(25, 118, 210, 0.3)',
             borderRadius: 3,
           }}
         >
@@ -423,14 +425,14 @@ const Employees: React.FC = () => {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Name</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Email</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Department</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Position</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Salary</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Status</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Region</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Actions</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Name</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Email</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Department</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Position</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Salary</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Status</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Region</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -439,16 +441,16 @@ const Employees: React.FC = () => {
                         key={employee._id || `employee-${index}`}
                         sx={{
                           '&:hover': {
-                            backgroundColor: 'rgba(0, 255, 255, 0.05)',
+                            backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.05)' : 'rgba(25, 118, 210, 0.05)',
                           },
                         }}
                       >
-                        <TableCell sx={{ color: '#ffffff' }}>{employee.fullName || 'Unknown'}</TableCell>
-                        <TableCell sx={{ color: '#b0b0b0' }}>{employee.email || 'Unknown'}</TableCell>
-                        <TableCell sx={{ color: '#b0b0b0' }}>
+                        <TableCell sx={{ color: mode === 'dark' ? '#ffffff' : '#000000' }}>{employee.fullName || 'Unknown'}</TableCell>
+                        <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>{employee.email || 'Unknown'}</TableCell>
+                        <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                           {employee.department ? employee.department.name : 'Unknown'}
                         </TableCell>
-                        <TableCell sx={{ color: '#b0b0b0' }}>
+                        <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                           {employee.position ? (employee.position.title || employee.position.name) : 'Unknown'}
                         </TableCell>
                         <TableCell sx={{ color: '#00ff88', fontWeight: 600 }}>
@@ -466,7 +468,7 @@ const Employees: React.FC = () => {
                             }}
                           />
                         </TableCell>
-                        <TableCell sx={{ color: '#b0b0b0' }}>{employee.region || 'Unknown'}</TableCell>
+                        <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>{employee.region || 'Unknown'}</TableCell>
                         <TableCell>
                           <Box sx={{ display: 'flex', gap: 1 }}>
                                                          <Tooltip title="View Details">
@@ -474,9 +476,9 @@ const Employees: React.FC = () => {
                                  size="small"
                                  onClick={() => handleViewEmployee(employee)}
                                  sx={{
-                                   color: '#00ffff',
+                                   color: mode === 'dark' ? '#00ffff' : '#1976d2',
                                    '&:hover': {
-                                     backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                                     backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.1)' : 'rgba(25, 118, 210, 0.1)',
                                    },
                                  }}
                                >

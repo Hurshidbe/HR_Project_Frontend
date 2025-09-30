@@ -17,6 +17,7 @@ import {
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import apiService from '../services/api';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface DashboardStats {
   totalCandidates: number;
@@ -30,6 +31,7 @@ interface DashboardStats {
 }
 
 const Dashboard: React.FC = () => {
+  const { mode } = useTheme();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -193,14 +195,18 @@ const Dashboard: React.FC = () => {
               <Card
                 sx={{
                   height: '100%',
-                  background: 'rgba(26, 26, 26, 0.8)',
+                  background: mode === 'dark' ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.8)',
                   backdropFilter: 'blur(10px)',
                   border: `1px solid ${card.color}40`,
                   borderRadius: 3,
-                  boxShadow: `0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px ${card.color}20`,
+                  boxShadow: mode === 'dark'
+                    ? `0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px ${card.color}20`
+                    : `0 8px 32px rgba(0, 0, 0, 0.1), 0 0 20px ${card.color}20`,
                   '&:hover': {
                     transform: 'translateY(-5px)',
-                    boxShadow: `0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px ${card.color}30`,
+                    boxShadow: mode === 'dark'
+                      ? `0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px ${card.color}30`
+                      : `0 12px 40px rgba(0, 0, 0, 0.2), 0 0 30px ${card.color}30`,
                     borderColor: `${card.color}80`,
                   },
                   transition: 'all 0.3s ease',
@@ -244,7 +250,7 @@ const Dashboard: React.FC = () => {
                   </Typography>
                   <Typography
                     variant="body2"
-                    sx={{ color: '#b0b0b0', fontSize: '0.9rem' }}
+                    sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666', fontSize: '0.9rem' }}
                   >
                     {card.title}
                   </Typography>
@@ -274,14 +280,18 @@ const Dashboard: React.FC = () => {
             >
               <Card
                 sx={{
-                  background: 'rgba(26, 26, 26, 0.8)',
+                  background: mode === 'dark' ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.8)',
                   backdropFilter: 'blur(10px)',
                   border: `1px solid ${action.color}40`,
                   borderRadius: 3,
-                  boxShadow: `0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px ${action.color}20`,
+                  boxShadow: mode === 'dark'
+                    ? `0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px ${action.color}20`
+                    : `0 8px 32px rgba(0, 0, 0, 0.1), 0 0 20px ${action.color}20`,
                   '&:hover': {
                     transform: 'translateY(-3px)',
-                    boxShadow: `0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px ${action.color}30`,
+                    boxShadow: mode === 'dark'
+                      ? `0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px ${action.color}30`
+                      : `0 12px 40px rgba(0, 0, 0, 0.2), 0 0 30px ${action.color}30`,
                     borderColor: `${action.color}80`,
                   },
                   transition: 'all 0.3s ease',
@@ -309,7 +319,7 @@ const Dashboard: React.FC = () => {
                     <Typography
                       variant="h6"
                       sx={{
-                        color: '#ffffff',
+                        color: mode === 'dark' ? '#ffffff' : '#000000',
                         fontWeight: 600,
                       }}
                     >
@@ -318,7 +328,7 @@ const Dashboard: React.FC = () => {
                   </Box>
                   <Typography
                     variant="body2"
-                    sx={{ color: '#b0b0b0', lineHeight: 1.6 }}
+                    sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666', lineHeight: 1.6 }}
                   >
                     {action.description}
                   </Typography>
@@ -349,21 +359,23 @@ const Dashboard: React.FC = () => {
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
           <Card
             sx={{
-              background: 'rgba(26, 26, 26, 0.8)',
+              background: mode === 'dark' ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.8)',
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(0, 255, 136, 0.3)',
               borderRadius: 3,
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 255, 136, 0.1)',
+              boxShadow: mode === 'dark'
+                ? '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 255, 136, 0.1)'
+                : '0 8px 32px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 255, 136, 0.1)',
             }}
           >
             <CardContent sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h4" sx={{ color: '#00ff88', fontWeight: 700, mb: 1 }}>
                 {stats?.workingEmployees || 0}
               </Typography>
-              <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>
+              <Typography variant="h6" sx={{ color: mode === 'dark' ? '#ffffff' : '#000000', mb: 1 }}>
                 Working Employees
               </Typography>
-              <Typography variant="body2" sx={{ color: '#b0b0b0' }}>
+              <Typography variant="body2" sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                 Currently active and working
               </Typography>
             </CardContent>
@@ -371,21 +383,23 @@ const Dashboard: React.FC = () => {
 
           <Card
             sx={{
-              background: 'rgba(26, 26, 26, 0.8)',
+              background: mode === 'dark' ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.8)',
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 68, 68, 0.3)',
               borderRadius: 3,
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 68, 68, 0.1)',
+              boxShadow: mode === 'dark'
+                ? '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 68, 68, 0.1)'
+                : '0 8px 32px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 68, 68, 0.1)',
             }}
           >
             <CardContent sx={{ p: 3, textAlign: 'center' }}>
               <Typography variant="h4" sx={{ color: '#ff4444', fontWeight: 700, mb: 1 }}>
                 {stats?.firedEmployees || 0}
               </Typography>
-              <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>
+              <Typography variant="h6" sx={{ color: mode === 'dark' ? '#ffffff' : '#000000', mb: 1 }}>
                 Terminated Employees
               </Typography>
-              <Typography variant="body2" sx={{ color: '#b0b0b0' }}>
+              <Typography variant="body2" sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                 No longer with the company
               </Typography>
             </CardContent>
@@ -402,11 +416,15 @@ const Dashboard: React.FC = () => {
         <Card
           sx={{
             mt: 4,
-            background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(0, 0, 0, 0.8))',
+            background: mode === 'dark'
+              ? 'linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(0, 0, 0, 0.8))'
+              : 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(245, 245, 245, 0.8))',
             backdropFilter: 'blur(15px)',
-            border: '1px solid rgba(0, 255, 255, 0.3)',
+            border: mode === 'dark' ? '1px solid rgba(0, 255, 255, 0.3)' : '1px solid rgba(25, 118, 210, 0.3)',
             borderRadius: 3,
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 255, 255, 0.1)',
+            boxShadow: mode === 'dark'
+              ? '0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 255, 255, 0.1)'
+              : '0 8px 32px rgba(0, 0, 0, 0.1), 0 0 20px rgba(25, 118, 210, 0.1)',
           }}
         >
           <CardContent sx={{ p: 4, textAlign: 'center' }}>
@@ -423,7 +441,7 @@ const Dashboard: React.FC = () => {
             </Typography>
             <Typography
               variant="body1"
-              sx={{ color: '#b0b0b0', maxWidth: 600, mx: 'auto' }}
+              sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666', maxWidth: 600, mx: 'auto' }}
             >
               Manage your human resources efficiently with our comprehensive dashboard.
               Track candidates, employees, departments, and positions all in one place.

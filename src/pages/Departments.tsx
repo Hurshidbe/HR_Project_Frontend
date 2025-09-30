@@ -32,8 +32,10 @@ import { Department } from '../types';
 import apiService from '../services/api';
 import DepartmentModal from '../components/DepartmentModal';
 import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Departments: React.FC = () => {
+  const { mode } = useTheme();
   const [departments, setDepartments] = useState<Department[]>([]);
 
   const [loading, setLoading] = useState(true);
@@ -168,9 +170,9 @@ const Departments: React.FC = () => {
         <Card
           sx={{
             mb: 3,
-            background: 'rgba(26, 26, 26, 0.8)',
+            background: mode === 'dark' ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.8)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 255, 255, 0.3)',
+            border: mode === 'dark' ? '1px solid rgba(0, 255, 255, 0.3)' : '1px solid rgba(25, 118, 210, 0.3)',
             borderRadius: 3,
           }}
         >
@@ -196,12 +198,12 @@ const Departments: React.FC = () => {
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                    '&:hover fieldset': { borderColor: 'rgba(0, 255, 255, 0.5)' },
-                    '&.Mui-focused fieldset': { borderColor: '#00ffff' },
+                    '& fieldset': { borderColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)' },
+                    '&:hover fieldset': { borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.5)' : 'rgba(25, 118, 210, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: mode === 'dark' ? '#00ffff' : '#1976d2' },
                   },
-                  '& .MuiInputLabel-root': { color: '#b0b0b0' },
-                  '& .MuiInputBase-input': { color: '#ffffff' },
+                  '& .MuiInputLabel-root': { color: mode === 'dark' ? '#b0b0b0' : '#666666' },
+                  '& .MuiInputBase-input': { color: mode === 'dark' ? '#ffffff' : '#000000' },
                 }}
               />
               
@@ -211,11 +213,11 @@ const Departments: React.FC = () => {
                 startIcon={<RefreshIcon />}
                 onClick={fetchDepartments}
                 sx={{
-                  borderColor: '#00ffff',
-                  color: '#00ffff',
+                  borderColor: mode === 'dark' ? '#00ffff' : '#1976d2',
+                  color: mode === 'dark' ? '#00ffff' : '#1976d2',
                   '&:hover': {
-                    borderColor: '#00ccff',
-                    backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                    borderColor: mode === 'dark' ? '#00ccff' : '#1565c0',
+                    backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.1)' : 'rgba(25, 118, 210, 0.1)',
                   },
                 }}
               >
@@ -250,9 +252,9 @@ const Departments: React.FC = () => {
       >
         <Card
           sx={{
-            background: 'rgba(26, 26, 26, 0.8)',
+            background: mode === 'dark' ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.8)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 255, 255, 0.3)',
+            border: mode === 'dark' ? '1px solid rgba(0, 255, 255, 0.3)' : '1px solid rgba(25, 118, 210, 0.3)',
             borderRadius: 3,
           }}
         >
@@ -274,9 +276,9 @@ const Departments: React.FC = () => {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Name</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Created</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Actions</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Name</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Created</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -285,16 +287,16 @@ const Departments: React.FC = () => {
                         key={department._id}
                         sx={{
                           '&:hover': {
-                            backgroundColor: 'rgba(0, 255, 255, 0.05)',
+                            backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.05)' : 'rgba(25, 118, 210, 0.05)',
                           },
                         }}
                       >
-                        <TableCell sx={{ color: '#ffffff' }}>
+                        <TableCell sx={{ color: mode === 'dark' ? '#ffffff' : '#000000' }}>
                           <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
                             {department.name}
                           </Typography>
                         </TableCell>
-                        <TableCell sx={{ color: '#b0b0b0' }}>
+                        <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                           {new Date(department.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell>
@@ -304,9 +306,9 @@ const Departments: React.FC = () => {
                                 size="small"
                                 onClick={() => handleEditDepartment(department)}
                                 sx={{
-                                  color: '#00ffff',
+                                  color: mode === 'dark' ? '#00ffff' : '#1976d2',
                                   '&:hover': {
-                                    backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                                    backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.1)' : 'rgba(25, 118, 210, 0.1)',
                                   },
                                 }}
                               >

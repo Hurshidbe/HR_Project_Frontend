@@ -29,12 +29,14 @@ import { Position, Department } from '../types';
 import { apiService } from '../services/api';
 import PositionModal from '../components/PositionModal';
 import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface PositionWithDepartment extends Omit<Position, 'departmentId'> {
   departmentId: string | Department | null;
 }
 
 const Positions: React.FC = () => {
+  const { mode } = useTheme();
   const [positions, setPositions] = useState<PositionWithDepartment[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState(false);
@@ -203,7 +205,7 @@ const Positions: React.FC = () => {
       >
         {/* Header */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography variant="h4" sx={{ color: '#ffffff', fontWeight: 'bold' }}>
+          <Typography variant="h4" sx={{ color: mode === 'dark' ? '#ffffff' : '#000000', fontWeight: 'bold' }}>
             Position Management
           </Typography>
           <Button
@@ -211,11 +213,11 @@ const Positions: React.FC = () => {
             startIcon={<AddIcon />}
             onClick={handleAddPosition}
             sx={{
-              background: 'linear-gradient(45deg, #00ffff, #0099cc)',
-              color: '#000000',
+              background: mode === 'dark' ? 'linear-gradient(45deg, #00ffff, #0099cc)' : 'linear-gradient(45deg, #1976d2, #1565c0)',
+              color: '#ffffff',
               fontWeight: 'bold',
               '&:hover': {
-                background: 'linear-gradient(45deg, #00cccc, #006699)',
+                background: mode === 'dark' ? 'linear-gradient(45deg, #00cccc, #006699)' : 'linear-gradient(45deg, #1565c0, #0d47a1)',
               },
             }}
           >
@@ -224,7 +226,7 @@ const Positions: React.FC = () => {
         </Box>
 
         {/* Search and Actions */}
-        <Card sx={{ background: '#1a1a1a', border: '1px solid #333', mb: 3 }}>
+        <Card sx={{ background: mode === 'dark' ? '#1a1a1a' : 'rgba(255, 255, 255, 0.8)', border: mode === 'dark' ? '1px solid #333' : '1px solid rgba(25, 118, 210, 0.3)', mb: 3 }}>
           <CardContent>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {/* Filters Row */}
@@ -300,9 +302,9 @@ const Positions: React.FC = () => {
                   <Chip
                     label={`${filteredPositions.length} position${filteredPositions.length !== 1 ? 's' : ''}`}
                     sx={{
-                      background: 'rgba(0, 255, 255, 0.2)',
-                      color: '#00ffff',
-                      border: '1px solid #00ffff',
+                      background: mode === 'dark' ? 'rgba(0, 255, 255, 0.2)' : 'rgba(25, 118, 210, 0.2)',
+                      color: mode === 'dark' ? '#00ffff' : '#1976d2',
+                      border: mode === 'dark' ? '1px solid #00ffff' : '1px solid #1976d2',
                     }}
                   />
                 </Box>
@@ -313,22 +315,22 @@ const Positions: React.FC = () => {
         </Card>
 
         {/* Positions Table */}
-        <Card sx={{ background: '#1a1a1a', border: '1px solid #333' }}>
+        <Card sx={{ background: mode === 'dark' ? '#1a1a1a' : 'rgba(255, 255, 255, 0.8)', border: mode === 'dark' ? '1px solid #333' : '1px solid rgba(25, 118, 210, 0.3)' }}>
           <CardContent sx={{ p: 0 }}>
             <TableContainer component={Paper} sx={{ background: 'transparent' }}>
               <Table>
                 <TableHead>
-                  <TableRow sx={{ background: '#2a2a2a' }}>
-                    <TableCell sx={{ color: '#00ffff', fontWeight: 'bold', borderBottom: '2px solid #00ffff' }}>
+                  <TableRow sx={{ background: mode === 'dark' ? '#2a2a2a' : 'rgba(25, 118, 210, 0.1)' }}>
+                    <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold', borderBottom: mode === 'dark' ? '2px solid #00ffff' : '2px solid #1976d2' }}>
                       Position Title
                     </TableCell>
-                    <TableCell sx={{ color: '#00ffff', fontWeight: 'bold', borderBottom: '2px solid #00ffff' }}>
+                    <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold', borderBottom: mode === 'dark' ? '2px solid #00ffff' : '2px solid #1976d2' }}>
                       Department
                     </TableCell>
-                    <TableCell sx={{ color: '#00ffff', fontWeight: 'bold', borderBottom: '2px solid #00ffff' }}>
+                    <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold', borderBottom: mode === 'dark' ? '2px solid #00ffff' : '2px solid #1976d2' }}>
                       Created
                     </TableCell>
-                    <TableCell sx={{ color: '#00ffff', fontWeight: 'bold', borderBottom: '2px solid #00ffff', textAlign: 'center' }}>
+                    <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold', borderBottom: mode === 'dark' ? '2px solid #00ffff' : '2px solid #1976d2', textAlign: 'center' }}>
                       Actions
                     </TableCell>
                   </TableRow>
@@ -336,7 +338,7 @@ const Positions: React.FC = () => {
                 <TableBody>
                   {filteredPositions.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={4} sx={{ textAlign: 'center', color: '#666', py: 4 }}>
+                      <TableCell colSpan={4} sx={{ textAlign: 'center', color: mode === 'dark' ? '#666' : '#999', py: 4 }}>
                         {search ? 'No positions found matching your search.' : 'No positions available.'}
                       </TableCell>
                     </TableRow>
@@ -346,12 +348,12 @@ const Positions: React.FC = () => {
                         key={position._id}
                         sx={{
                           '&:hover': {
-                            backgroundColor: 'rgba(0, 255, 255, 0.05)',
+                            backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.05)' : 'rgba(25, 118, 210, 0.05)',
                           },
-                          borderBottom: '1px solid #333',
+                          borderBottom: mode === 'dark' ? '1px solid #333' : '1px solid rgba(0, 0, 0, 0.1)',
                         }}
                       >
-                        <TableCell sx={{ color: '#ffffff', fontWeight: '500' }}>
+                        <TableCell sx={{ color: mode === 'dark' ? '#ffffff' : '#000000', fontWeight: '500' }}>
                           {position.title}
                         </TableCell>
                         <TableCell>
@@ -359,13 +361,13 @@ const Positions: React.FC = () => {
                             label={getDepartmentName(position)}
                             size="small"
                             sx={{
-                              background: 'rgba(0, 255, 255, 0.2)',
-                              color: '#00ffff',
-                              border: '1px solid #00ffff',
+                              background: mode === 'dark' ? 'rgba(0, 255, 255, 0.2)' : 'rgba(25, 118, 210, 0.2)',
+                              color: mode === 'dark' ? '#00ffff' : '#1976d2',
+                              border: mode === 'dark' ? '1px solid #00ffff' : '1px solid #1976d2',
                             }}
                           />
                         </TableCell>
-                        <TableCell sx={{ color: '#b0b0b0' }}>
+                        <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                           {new Date(position.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell sx={{ textAlign: 'center' }}>

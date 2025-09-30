@@ -37,6 +37,7 @@ import {
 import { motion } from 'framer-motion';
 import { User, UserRole, CreateAdminDto } from '../types';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import apiService from '../services/api';
 import { useNavigate } from 'react-router-dom';
 
@@ -232,6 +233,7 @@ const UserModal: React.FC<UserModalProps> = ({ open, onClose, user, onSuccess })
 };
 
 const Users: React.FC = () => {
+  const { mode } = useTheme();
   const { isSuperAdmin } = useAuth();
   const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>([]);
@@ -423,9 +425,9 @@ const Users: React.FC = () => {
       >
         <Card
           sx={{
-            background: 'rgba(26, 26, 26, 0.8)',
+            background: mode === 'dark' ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.8)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 255, 255, 0.3)',
+            border: mode === 'dark' ? '1px solid rgba(0, 255, 255, 0.3)' : '1px solid rgba(25, 118, 210, 0.3)',
             borderRadius: 3,
           }}
         >
@@ -438,11 +440,11 @@ const Users: React.FC = () => {
               <TableContainer component={Paper} sx={{ backgroundColor: 'transparent' }}>
                 <Table>
                   <TableHead>
-                    <TableRow sx={{ backgroundColor: 'rgba(0, 255, 255, 0.1)' }}>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>Username</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>Role</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>Created</TableCell>
-                      <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>Actions</TableCell>
+                    <TableRow sx={{ backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.1)' : 'rgba(25, 118, 210, 0.1)' }}>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>Username</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>Role</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>Created</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -450,15 +452,15 @@ const Users: React.FC = () => {
                       users.map((user) => {
                         const isCurrentUser = user._id === JSON.parse(localStorage.getItem('user') || '{}')._id;
                         return (
-                          <TableRow 
-                            key={user._id} 
-                            sx={{ 
-                              '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.02)' },
-                              backgroundColor: isCurrentUser ? 'rgba(0, 255, 255, 0.05)' : 'transparent',
-                              borderLeft: isCurrentUser ? '4px solid #00ffff' : 'none',
+                          <TableRow
+                            key={user._id}
+                            sx={{
+                              '&:hover': { backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)' },
+                              backgroundColor: isCurrentUser ? (mode === 'dark' ? 'rgba(0, 255, 255, 0.05)' : 'rgba(25, 118, 210, 0.05)') : 'transparent',
+                              borderLeft: isCurrentUser ? (mode === 'dark' ? '4px solid #00ffff' : '4px solid #1976d2') : 'none',
                             }}
                           >
-                            <TableCell sx={{ color: '#ffffff' }}>
+                            <TableCell sx={{ color: mode === 'dark' ? '#ffffff' : '#000000' }}>
                               {user.username}
                               {isCurrentUser && (
                                 <Chip 
@@ -484,7 +486,7 @@ const Users: React.FC = () => {
                                 }}
                               />
                             </TableCell>
-                            <TableCell sx={{ color: '#b0b0b0' }}>
+                            <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                               {new Date(user.createdAt).toLocaleDateString()}
                             </TableCell>
                             <TableCell>
@@ -493,10 +495,10 @@ const Users: React.FC = () => {
                                   <IconButton
                                     onClick={() => handleEditUser(user)}
                                     disabled={isCurrentUser}
-                                    sx={{ 
-                                      color: isCurrentUser ? '#666666' : '#00ffff',
-                                      '&:hover': { 
-                                        backgroundColor: isCurrentUser ? 'transparent' : 'rgba(0, 255, 255, 0.1)' 
+                                    sx={{
+                                      color: isCurrentUser ? '#666666' : (mode === 'dark' ? '#00ffff' : '#1976d2'),
+                                      '&:hover': {
+                                        backgroundColor: isCurrentUser ? 'transparent' : (mode === 'dark' ? 'rgba(0, 255, 255, 0.1)' : 'rgba(25, 118, 210, 0.1)')
                                       },
                                       '&.Mui-disabled': {
                                         color: '#666666',

@@ -31,7 +31,6 @@ import {
   DialogContentText
 } from '@mui/material';
 import {
-  Add as AddIcon,
   Search as SearchIcon,
   FilterList as FilterIcon,
   Delete as DeleteIcon
@@ -41,8 +40,10 @@ import apiService from '../services/api';
 import { Candidate, CandidateStatuses, Sex, Region } from '../types';
 import AcceptCandidateModal from '../components/AcceptCandidateModal';
 import ViewCandidateModal from '../components/ViewCandidateModal';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Candidates: React.FC = () => {
+  const { mode } = useTheme();
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -318,9 +319,9 @@ const Candidates: React.FC = () => {
         <Card
           sx={{
             mb: 3,
-            background: 'rgba(26, 26, 26, 0.8)',
+            background: mode === 'dark' ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.8)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 255, 255, 0.3)',
+            border: mode === 'dark' ? '1px solid rgba(0, 255, 255, 0.3)' : '1px solid rgba(25, 118, 210, 0.3)',
             borderRadius: 3,
           }}
         >
@@ -330,7 +331,7 @@ const Candidates: React.FC = () => {
                 display: 'grid',
                 gridTemplateColumns: {
                   xs: '1fr',
-                  md: '2fr 1fr 1fr 0.8fr',
+                  md: '2fr 1fr 1fr',
                 },
                 gap: 3,
                 alignItems: 'center',
@@ -346,23 +347,23 @@ const Candidates: React.FC = () => {
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                    '&:hover fieldset': { borderColor: 'rgba(0, 255, 255, 0.5)' },
-                    '&.Mui-focused fieldset': { borderColor: '#00ffff' },
+                    '& fieldset': { borderColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)' },
+                    '&:hover fieldset': { borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.5)' : 'rgba(25, 118, 210, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: mode === 'dark' ? '#00ffff' : '#1976d2' },
                   },
-                  '& .MuiInputLabel-root': { color: '#b0b0b0' },
-                  '& .MuiInputBase-input': { color: '#ffffff' },
+                  '& .MuiInputLabel-root': { color: mode === 'dark' ? '#b0b0b0' : '#666666' },
+                  '& .MuiInputBase-input': { color: mode === 'dark' ? '#ffffff' : '#000000' },
                 }}
               />
               <FormControl fullWidth>
-                <InputLabel sx={{ color: '#b0b0b0' }}>Status</InputLabel>
+                <InputLabel sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>Status</InputLabel>
                 <Select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                   sx={{
-                    color: '#ffffff',
-                    '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(0, 255, 255, 0.5)' },
+                    color: mode === 'dark' ? '#ffffff' : '#000000',
+                    '& .MuiOutlinedInput-notchedOutline': { borderColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)' },
+                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.5)' : 'rgba(25, 118, 210, 0.5)' },
                   }}
                 >
                   <MenuItem value="">All Statuses</MenuItem>
@@ -374,7 +375,7 @@ const Candidates: React.FC = () => {
                 </Select>
               </FormControl>
               <FormControl fullWidth>
-                <InputLabel sx={{ color: '#b0b0b0' }}>Region</InputLabel>
+                <InputLabel sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>Region</InputLabel>
                 <Select
                   value={regionFilter}
                   onChange={(e) => setRegionFilter(e.target.value)}
@@ -392,20 +393,6 @@ const Candidates: React.FC = () => {
                   ))}
                 </Select>
               </FormControl>
-              <Button
-                fullWidth
-                variant="contained"
-                startIcon={<AddIcon />}
-                sx={{
-                  background: 'linear-gradient(45deg, #00ffff, #0080ff)',
-                  '&:hover': {
-                    background: 'linear-gradient(45deg, #00ccff, #0066cc)',
-                    boxShadow: '0 0 20px rgba(0, 255, 255, 0.4)',
-                  },
-                }}
-              >
-                Add New
-              </Button>
             </Box>
           </CardContent>
         </Card>
@@ -419,9 +406,9 @@ const Candidates: React.FC = () => {
       >
         <Card
           sx={{
-            background: 'rgba(26, 26, 26, 0.8)',
+            background: mode === 'dark' ? 'rgba(26, 26, 26, 0.8)' : 'rgba(255, 255, 255, 0.8)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 255, 255, 0.3)',
+            border: mode === 'dark' ? '1px solid rgba(0, 255, 255, 0.3)' : '1px solid rgba(25, 118, 210, 0.3)',
             borderRadius: 3,
           }}
         >
@@ -430,13 +417,13 @@ const Candidates: React.FC = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Name</TableCell>
-                    <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Email</TableCell>
-                    <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Region</TableCell>
-                    <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Status</TableCell>
-                    <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Position</TableCell>
-                    <TableCell sx={{ color: '#00ffff', fontWeight: 600 }}>Actions</TableCell>
-                    <TableCell sx={{ color: '#00ffff', fontWeight: 600, textAlign: 'center', width: '80px' }}>Delete</TableCell>
+                    <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Name</TableCell>
+                    <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Email</TableCell>
+                    <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Region</TableCell>
+                    <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Status</TableCell>
+                    <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Position</TableCell>
+                    <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600 }}>Actions</TableCell>
+                    <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 600, textAlign: 'center', width: '80px' }}>Delete</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -445,13 +432,13 @@ const Candidates: React.FC = () => {
                       key={candidate._id}
                       sx={{
                         '&:hover': {
-                          backgroundColor: 'rgba(0, 255, 255, 0.05)',
+                          backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.05)' : 'rgba(25, 118, 210, 0.05)',
                         },
                       }}
                     >
-                      <TableCell sx={{ color: '#ffffff' }}>{candidate.fullName}</TableCell>
-                      <TableCell sx={{ color: '#b0b0b0' }}>{candidate.email}</TableCell>
-                      <TableCell sx={{ color: '#b0b0b0' }}>{candidate.region}</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#ffffff' : '#000000' }}>{candidate.fullName}</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>{candidate.email}</TableCell>
+                      <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>{candidate.region}</TableCell>
                       <TableCell>
                         <Chip
                           label={candidate.status}
@@ -464,7 +451,7 @@ const Candidates: React.FC = () => {
                           }}
                         />
                       </TableCell>
-                      <TableCell sx={{ color: '#b0b0b0' }}>
+                      <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                         {candidate.jobRequirement?.position || 'N/A'}
                       </TableCell>
                       <TableCell>
@@ -493,17 +480,17 @@ const Candidates: React.FC = () => {
                               onClick={() => handleViewCandidate(candidate)}
                               disabled={viewingCandidateId === candidate._id}
                               sx={{
-                                borderColor: '#00ffff',
-                                color: '#00ffff',
+                                borderColor: mode === 'dark' ? '#00ffff' : '#1976d2',
+                                color: mode === 'dark' ? '#00ffff' : '#1976d2',
                                 minWidth: 'fit-content',
                                 height: '32px',
                                 '&:hover': {
-                                  borderColor: '#4dffff',
-                                  backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                                  borderColor: mode === 'dark' ? '#4dffff' : '#42a5f5',
+                                  backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.1)' : 'rgba(25, 118, 210, 0.1)',
                                 },
                                 '&:disabled': {
-                                  borderColor: 'rgba(0, 255, 255, 0.3)',
-                                  color: 'rgba(0, 255, 255, 0.3)',
+                                  borderColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.3)' : 'rgba(25, 118, 210, 0.3)',
+                                  color: mode === 'dark' ? 'rgba(0, 255, 255, 0.3)' : 'rgba(25, 118, 210, 0.3)',
                                 },
                               }}
                             >

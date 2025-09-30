@@ -16,7 +16,6 @@ import {
   Avatar,
   Menu,
   MenuItem,
-  useTheme,
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -29,16 +28,19 @@ import {
   AdminPanelSettings as AdminIcon,
   Logout as LogoutIcon,
   AccountCircle as AccountIcon,
+  Brightness4 as DarkModeIcon,
+  Brightness7 as LightModeIcon,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 const drawerWidth = 280;
 
 const Layout: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const theme = useTheme();
+  const { mode, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout, isSuperAdmin } = useAuth();
@@ -80,8 +82,10 @@ const Layout: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'center',
           p: 2,
-          background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)',
-          borderBottom: '1px solid #333',
+          background: mode === 'dark'
+            ? 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)'
+            : 'linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)',
+          borderBottom: mode === 'dark' ? '1px solid #333' : '1px solid #e0e0e0',
         }}
       >
         <motion.div
@@ -92,19 +96,21 @@ const Layout: React.FC = () => {
           <Typography
             variant="h4"
             sx={{
-              background: 'linear-gradient(45deg, #00ffff, #ff00ff)',
+              background: mode === 'dark'
+                ? 'linear-gradient(45deg, #00ffff, #ff00ff)'
+                : 'linear-gradient(45deg, #1976d2, #9c27b0)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               fontWeight: 'bold',
-              textShadow: '0 0 20px rgba(0, 255, 255, 0.5)',
+              textShadow: mode === 'dark' ? '0 0 20px rgba(0, 255, 255, 0.5)' : 'none',
             }}
           >
             HR System
           </Typography>
         </motion.div>
       </Box>
-      <Divider sx={{ borderColor: '#333' }} />
+      <Divider sx={{ borderColor: mode === 'dark' ? '#333' : '#e0e0e0' }} />
       <List sx={{ pt: 1 }}>
         {menuItems.map((item, index) => (
           <motion.div
@@ -122,21 +128,33 @@ const Layout: React.FC = () => {
                   borderRadius: 2,
                   mb: 0.5,
                   '&.Mui-selected': {
-                    backgroundColor: 'rgba(0, 255, 255, 0.1)',
-                    border: '1px solid rgba(0, 255, 255, 0.3)',
+                    backgroundColor: mode === 'dark'
+                      ? 'rgba(0, 255, 255, 0.1)'
+                      : 'rgba(25, 118, 210, 0.1)',
+                    border: mode === 'dark'
+                      ? '1px solid rgba(0, 255, 255, 0.3)'
+                      : '1px solid rgba(25, 118, 210, 0.3)',
                     '&:hover': {
-                      backgroundColor: 'rgba(0, 255, 255, 0.15)',
+                      backgroundColor: mode === 'dark'
+                        ? 'rgba(0, 255, 255, 0.15)'
+                        : 'rgba(25, 118, 210, 0.15)',
                     },
                   },
                   '&:hover': {
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    backgroundColor: mode === 'dark'
+                      ? 'rgba(255, 255, 255, 0.05)'
+                      : 'rgba(0, 0, 0, 0.05)',
+                    border: mode === 'dark'
+                      ? '1px solid rgba(255, 255, 255, 0.1)'
+                      : '1px solid rgba(0, 0, 0, 0.1)',
                   },
                 }}
               >
                 <ListItemIcon
                   sx={{
-                    color: location.pathname === item.path ? '#00ffff' : '#b0b0b0',
+                    color: location.pathname === item.path
+                      ? (mode === 'dark' ? '#00ffff' : '#1976d2')
+                      : (mode === 'dark' ? '#b0b0b0' : '#666666'),
                     minWidth: 40,
                   }}
                 >
@@ -147,7 +165,9 @@ const Layout: React.FC = () => {
                   sx={{
                     '& .MuiTypography-root': {
                       fontWeight: location.pathname === item.path ? 600 : 400,
-                      color: location.pathname === item.path ? '#00ffff' : '#ffffff',
+                      color: location.pathname === item.path
+                        ? (mode === 'dark' ? '#00ffff' : '#1976d2')
+                        : (mode === 'dark' ? '#ffffff' : '#000000'),
                     },
                   }}
                 />
@@ -166,10 +186,10 @@ const Layout: React.FC = () => {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          backgroundColor: 'rgba(26, 26, 26, 0.95)',
+          backgroundColor: mode === 'dark' ? 'rgba(26, 26, 26, 0.95)' : 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(10px)',
-          borderBottom: '1px solid #333',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+          borderBottom: mode === 'dark' ? '1px solid #333' : '1px solid #e0e0e0',
+          boxShadow: mode === 'dark' ? '0 4px 20px rgba(0, 0, 0, 0.3)' : '0 4px 20px rgba(0, 0, 0, 0.1)',
         }}
       >
         <Toolbar>
@@ -186,19 +206,36 @@ const Layout: React.FC = () => {
             {menuItems.find(item => item.path === location.pathname)?.text || 'Dashboard'}
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Typography variant="body2" sx={{ color: '#b0b0b0' }}>
+            <IconButton
+              onClick={toggleTheme}
+              sx={{
+                color: mode === 'dark' ? '#00ffff' : '#1976d2',
+                '&:hover': {
+                  backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.1)' : 'rgba(25, 118, 210, 0.1)',
+                },
+              }}
+              title={`Switch to ${mode === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+            </IconButton>
+            <Typography variant="body2" sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
               {user?.username}
             </Typography>
             <IconButton
               onClick={handleProfileMenuOpen}
               sx={{
-                color: '#00ffff',
+                color: mode === 'dark' ? '#00ffff' : '#1976d2',
                 '&:hover': {
-                  backgroundColor: 'rgba(0, 255, 255, 0.1)',
+                  backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.1)' : 'rgba(25, 118, 210, 0.1)',
                 },
               }}
             >
-              <Avatar sx={{ width: 32, height: 32, bgcolor: '#00ffff', color: '#000' }}>
+              <Avatar sx={{
+                width: 32,
+                height: 32,
+                bgcolor: mode === 'dark' ? '#00ffff' : '#1976d2',
+                color: mode === 'dark' ? '#000' : '#fff'
+              }}>
                 <AccountIcon />
               </Avatar>
             </IconButton>
@@ -222,8 +259,8 @@ const Layout: React.FC = () => {
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
-              backgroundColor: '#1a1a1a',
-              borderRight: '1px solid #333',
+              backgroundColor: mode === 'dark' ? '#1a1a1a' : '#ffffff',
+              borderRight: mode === 'dark' ? '1px solid #333' : '1px solid #e0e0e0',
             },
           }}
         >
@@ -236,8 +273,8 @@ const Layout: React.FC = () => {
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
-              backgroundColor: '#1a1a1a',
-              borderRight: '1px solid #333',
+              backgroundColor: mode === 'dark' ? '#1a1a1a' : '#ffffff',
+              borderRight: mode === 'dark' ? '1px solid #333' : '1px solid #e0e0e0',
             },
           }}
           open
@@ -254,7 +291,9 @@ const Layout: React.FC = () => {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           mt: '64px',
           minHeight: 'calc(100vh - 64px)',
-          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
+          background: mode === 'dark'
+            ? 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)'
+            : 'linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%)',
         }}
       >
         <motion.div
@@ -272,9 +311,9 @@ const Layout: React.FC = () => {
         onClose={handleProfileMenuClose}
         sx={{
           '& .MuiPaper-root': {
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #333',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+            backgroundColor: mode === 'dark' ? '#1a1a1a' : '#ffffff',
+            border: mode === 'dark' ? '1px solid #333' : '1px solid #e0e0e0',
+            boxShadow: mode === 'dark' ? '0 8px 32px rgba(0, 0, 0, 0.5)' : '0 8px 32px rgba(0, 0, 0, 0.1)',
           },
         }}
       >

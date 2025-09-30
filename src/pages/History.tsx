@@ -33,6 +33,7 @@ import {
 import { motion } from 'framer-motion';
 
 import { apiService } from '../services/api';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface SalaryHistory {
   _id: string;
@@ -91,6 +92,7 @@ function TabPanel(props: TabPanelProps) {
 }
 
 const History: React.FC = () => {
+  const { mode } = useTheme();
   const isMountedRef = useRef(true);
   const [tabValue, setTabValue] = useState(0);
   const [salaryHistory, setSalaryHistory] = useState<SalaryHistory[]>([]);
@@ -418,7 +420,7 @@ const History: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
-        <Card sx={{ background: '#1a1a1a', border: '1px solid #333', mb: 3 }}>
+        <Card sx={{ background: mode === 'dark' ? '#1a1a1a' : 'rgba(255, 255, 255, 0.8)', border: mode === 'dark' ? '1px solid #333' : '1px solid rgba(25, 118, 210, 0.3)', mb: 3 }}>
           <CardContent>
             <Box sx={{ borderBottom: 1, borderColor: '#333' }}>
               <Tabs
@@ -426,13 +428,13 @@ const History: React.FC = () => {
                 onChange={handleTabChange}
                 sx={{
                   '& .MuiTab-root': {
-                    color: '#b0b0b0',
+                    color: mode === 'dark' ? '#b0b0b0' : '#666666',
                     '&.Mui-selected': {
-                      color: '#00ffff',
+                      color: mode === 'dark' ? '#00ffff' : '#1976d2',
                     },
                   },
                   '& .MuiTabs-indicator': {
-                    backgroundColor: '#00ffff',
+                    backgroundColor: mode === 'dark' ? '#00ffff' : '#1976d2',
                   },
                 }}
               >
@@ -458,7 +460,7 @@ const History: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
       >
-        <Card sx={{ background: '#1a1a1a', border: '1px solid #333', mb: 3 }}>
+        <Card sx={{ background: mode === 'dark' ? '#1a1a1a' : 'rgba(255, 255, 255, 0.8)', border: mode === 'dark' ? '1px solid #333' : '1px solid rgba(25, 118, 210, 0.3)', mb: 3 }}>
           <CardContent>
             <Box sx={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 2, alignItems: 'center' }}>
               <TextField
@@ -471,12 +473,12 @@ const History: React.FC = () => {
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    '& fieldset': { borderColor: '#333' },
-                    '&:hover fieldset': { borderColor: '#00ffff' },
-                    '&.Mui-focused fieldset': { borderColor: '#00ffff' },
+                    '& fieldset': { borderColor: mode === 'dark' ? '#333' : 'rgba(0, 0, 0, 0.2)' },
+                    '&:hover fieldset': { borderColor: mode === 'dark' ? '#00ffff' : 'rgba(25, 118, 210, 0.5)' },
+                    '&.Mui-focused fieldset': { borderColor: mode === 'dark' ? '#00ffff' : '#1976d2' },
                   },
-                  '& .MuiInputLabel-root': { color: '#b0b0b0' },
-                  '& .MuiInputBase-input': { color: '#ffffff' },
+                  '& .MuiInputLabel-root': { color: mode === 'dark' ? '#b0b0b0' : '#666666' },
+                  '& .MuiInputBase-input': { color: mode === 'dark' ? '#ffffff' : '#000000' },
                 }}
               />
               
@@ -500,11 +502,11 @@ const History: React.FC = () => {
                 startIcon={<RefreshIcon />}
                 onClick={handleRefresh}
                 sx={{
-                  color: '#00ffff',
-                  borderColor: '#00ffff',
+                  color: mode === 'dark' ? '#00ffff' : '#1976d2',
+                  borderColor: mode === 'dark' ? '#00ffff' : '#1976d2',
                   '&:hover': {
-                    borderColor: '#00cccc',
-                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    borderColor: mode === 'dark' ? '#00cccc' : '#1565c0',
+                    backgroundColor: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(25, 118, 210, 0.1)',
                   },
                 }}
               >
@@ -524,7 +526,7 @@ const History: React.FC = () => {
                  {/* Salary History Tab */}
          <TabPanel value={tabValue} index={0}>
            {/* Salary History Filters */}
-           <Card sx={{ background: '#1a1a1a', border: '1px solid #333', mb: 3 }}>
+           <Card sx={{ background: mode === 'dark' ? '#1a1a1a' : 'rgba(255, 255, 255, 0.8)', border: mode === 'dark' ? '1px solid #333' : '1px solid rgba(25, 118, 210, 0.3)', mb: 3 }}>
              <CardContent>
                                <Typography variant="subtitle1" sx={{ color: '#00ffff', mb: 2, fontWeight: 600 }}>
                   Salary History Filters
@@ -577,7 +579,7 @@ const History: React.FC = () => {
              </CardContent>
            </Card>
 
-           <Card sx={{ background: '#1a1a1a', border: '1px solid #333' }}>
+           <Card sx={{ background: mode === 'dark' ? '#1a1a1a' : 'rgba(255, 255, 255, 0.8)', border: mode === 'dark' ? '1px solid #333' : '1px solid rgba(25, 118, 210, 0.3)' }}>
              <CardContent>
                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                  <Typography variant="h6" sx={{ color: '#00ffff' }}>
@@ -609,12 +611,12 @@ const History: React.FC = () => {
                 <TableContainer component={Paper} sx={{ background: 'transparent' }}>
                   <Table>
                                          <TableHead>
-                       <TableRow sx={{ background: '#2a2a2a' }}>
-                         <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>Employee</TableCell>
-                         <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>New Salary</TableCell>
-                         <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>Old Salary</TableCell>
-                         <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>Change</TableCell>
-                         <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>Date</TableCell>
+                       <TableRow sx={{ background: mode === 'dark' ? '#2a2a2a' : 'rgba(25, 118, 210, 0.1)' }}>
+                         <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>Employee</TableCell>
+                         <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>New Salary</TableCell>
+                         <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>Old Salary</TableCell>
+                         <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>Change</TableCell>
+                         <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>Date</TableCell>
                        </TableRow>
                      </TableHead>
                     <TableBody>
@@ -625,24 +627,24 @@ const History: React.FC = () => {
                            <TableRow
                              key={history._id}
                              sx={{
-                               '&:hover': { backgroundColor: 'rgba(0, 255, 255, 0.05)' },
-                               borderBottom: '1px solid #333',
+                               '&:hover': { backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.05)' : 'rgba(25, 118, 210, 0.05)' },
+                               borderBottom: mode === 'dark' ? '1px solid #333' : '1px solid rgba(0, 0, 0, 0.1)',
                              }}
                            >
                              <TableCell>
                                <Box>
-                                 <Typography variant="subtitle2" sx={{ color: '#ffffff', fontWeight: 600 }}>
+                                 <Typography variant="subtitle2" sx={{ color: mode === 'dark' ? '#ffffff' : '#000000', fontWeight: 600 }}>
                                    {history.employee.fullName}
                                  </Typography>
-                                 <Typography variant="caption" sx={{ color: '#b0b0b0' }}>
+                                 <Typography variant="caption" sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                                    {history.employee.email}
                                  </Typography>
                                </Box>
                              </TableCell>
-                                                         <TableCell sx={{ color: '#ffffff', fontWeight: 600 }}>
+                                                         <TableCell sx={{ color: mode === 'dark' ? '#ffffff' : '#000000', fontWeight: 600 }}>
                                {formatCurrency(history.newSalary)}
                              </TableCell>
-                             <TableCell sx={{ color: '#b0b0b0' }}>
+                             <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                                {formatCurrency(history.oldSalary)}
                              </TableCell>
                             <TableCell>
@@ -657,7 +659,7 @@ const History: React.FC = () => {
                                 }}
                               />
                             </TableCell>
-                            <TableCell sx={{ color: '#b0b0b0' }}>
+                            <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                               {formatDateTime(history.createdAt || new Date().toISOString())}
                             </TableCell>
                           </TableRow>
@@ -676,7 +678,7 @@ const History: React.FC = () => {
         {/* Position History Tab */}
         <TabPanel value={tabValue} index={1}>
            {/* Position History Filters */}
-           <Card sx={{ background: '#1a1a1a', border: '1px solid #333', mb: 3 }}>
+           <Card sx={{ background: mode === 'dark' ? '#1a1a1a' : 'rgba(255, 255, 255, 0.8)', border: mode === 'dark' ? '1px solid #333' : '1px solid rgba(25, 118, 210, 0.3)', mb: 3 }}>
              <CardContent>
                                <Typography variant="subtitle1" sx={{ color: '#00ffff', mb: 2, fontWeight: 600 }}>
                   Position History Filters
@@ -707,7 +709,7 @@ const History: React.FC = () => {
              </CardContent>
            </Card>
 
-           <Card sx={{ background: '#1a1a1a', border: '1px solid #333' }}>
+           <Card sx={{ background: mode === 'dark' ? '#1a1a1a' : 'rgba(255, 255, 255, 0.8)', border: mode === 'dark' ? '1px solid #333' : '1px solid rgba(25, 118, 210, 0.3)' }}>
              <CardContent>
                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                  <Typography variant="h6" sx={{ color: '#00ffff' }}>
@@ -739,11 +741,11 @@ const History: React.FC = () => {
                 <TableContainer component={Paper} sx={{ background: 'transparent' }}>
                   <Table>
                     <TableHead>
-                      <TableRow sx={{ background: '#2a2a2a' }}>
-                        <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>Employee</TableCell>
-                        <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>Previous Position</TableCell>
-                        <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>New Position</TableCell>
-                        <TableCell sx={{ color: '#00ffff', fontWeight: 'bold' }}>Date</TableCell>
+                      <TableRow sx={{ background: mode === 'dark' ? '#2a2a2a' : 'rgba(25, 118, 210, 0.1)' }}>
+                        <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>Employee</TableCell>
+                        <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>Previous Position</TableCell>
+                        <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>New Position</TableCell>
+                        <TableCell sx={{ color: mode === 'dark' ? '#00ffff' : '#1976d2', fontWeight: 'bold' }}>Date</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -752,16 +754,16 @@ const History: React.FC = () => {
                            <TableRow
                              key={history._id}
                              sx={{
-                               '&:hover': { backgroundColor: 'rgba(0, 255, 255, 0.05)' },
-                               borderBottom: '1px solid #333',
+                               '&:hover': { backgroundColor: mode === 'dark' ? 'rgba(0, 255, 255, 0.05)' : 'rgba(25, 118, 210, 0.05)' },
+                               borderBottom: mode === 'dark' ? '1px solid #333' : '1px solid rgba(0, 0, 0, 0.1)',
                              }}
                            >
                              <TableCell>
                                <Box>
-                                 <Typography variant="subtitle2" sx={{ color: '#ffffff', fontWeight: 600 }}>
+                                 <Typography variant="subtitle2" sx={{ color: mode === 'dark' ? '#ffffff' : '#000000', fontWeight: 600 }}>
                                    {history.employee.fullName}
                                  </Typography>
-                                 <Typography variant="caption" sx={{ color: '#b0b0b0' }}>
+                                 <Typography variant="caption" sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                                    {history.employee.email}
                                  </Typography>
                                </Box>
@@ -788,7 +790,7 @@ const History: React.FC = () => {
                                  }}
                                />
                              </TableCell>
-                            <TableCell sx={{ color: '#b0b0b0' }}>
+                            <TableCell sx={{ color: mode === 'dark' ? '#b0b0b0' : '#666666' }}>
                               {formatDateTime(history.createdAt)}
                             </TableCell>
                           </TableRow>
